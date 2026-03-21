@@ -246,19 +246,11 @@ Data insertion into the system was carried out using three methods:
 
 ##  Backup and Restore
 
-A full backup of the database was performed.
+## 🔹 Backup File
+<img width="1913" height="953" alt="צילום מסך 2026-03-22 002051" src="https://github.com/user-attachments/assets/65431765-ce45-4ad7-a71f-2b0ce3dfbaff" />
 
-📌 The following should be added:
-- Screenshot of the backup operation  
-- Backup file  
-- Screenshot of the data restore process  
-
-**Purpose of the backup:**
-
-- Restoring data in case of failure  
-- Preserving the system state  
-
----
+## 🔹 Restore
+<img width="1532" height="337" alt="צילום מסך 2026-03-22 002903" src="https://github.com/user-attachments/assets/5c609770-f66d-435c-94e1-c2739d27ded9" />
 
 ##  Summary
 
