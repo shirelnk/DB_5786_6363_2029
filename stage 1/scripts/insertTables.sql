@@ -1,229 +1,146 @@
--- Insert data into the DIFFICULTYLEVEL table
-INSERT INTO DIFFICULTYLEVEL (DifficultyID, DifficultyName) VALUES 
+-- שיטה 1: INSERT ידני
+INSERT INTO DIFFICULTYLEVEL (DifficultyID, DifficultyName) VALUES
 (1, 'Easy'),
 (2, 'Moderate'),
-(3, 'Challenging'),
-(4, 'Hard'),
-(5, 'Extreme'),
-(6, 'Family Friendly'),
-(7, 'Beginner'),
-(8, 'Intermediate'),
-(9, 'Advanced'),
-(10, 'Expert'),
-(11, 'Toddler Safe'),
-(12, 'Senior Friendly'),
-(13, 'Technical'),
-(14, 'Professional'),
-(15, 'Level 1'),
-(16, 'Level 2'),
-(17, 'Level 3'),
-(18, 'Level 4'),
-(19, 'Level 5'),
-(20, 'Master');
+(3, 'Hard'),
+(4, 'Advanced'),
+(5, 'Expert');
 
--- Insert data into the TOURSTATUS table
-INSERT INTO TOURSTATUS (TourStatusID, StatusName) VALUES 
-(1, 'Scheduled'),
-(2, 'Confirmed'),
-(3, 'In Progress'),
+INSERT INTO TOURSTATUS (TourStatusID, StatusName) VALUES
+(1, 'Open'),
+(2, 'Closed'),
+(3, 'Cancelled'),
 (4, 'Completed'),
-(5, 'Cancelled'),
-(6, 'Postponed'),
-(7, 'Fully Booked'),
-(8, 'Pending'),
-(9, 'Draft'),
-(10, 'On Hold'),
-(11, 'Awaiting Guide'),
-(12, 'Closed'),
-(13, 'Archived'),
-(14, 'Sold Out'),
-(15, 'Maintenance'),
-(16, 'Hidden'),
-(17, 'Available'),
-(18, 'Last Minute'),
-(19, 'Premium Only'),
-(20, 'Returning Soon');
+(5, 'Postponed');
 
--- Insert data into the REGISTRATIONSTATUS table
-INSERT INTO REGISTRATIONSTATUS (RegistrationStatusID, StatusName) VALUES 
-(1, 'Registered'),
-(2, 'Confirmed'),
-(3, 'Waitlist'),
-(4, 'Cancelled'),
-(5, 'Refunded'),
-(6, 'No Show'),
-(7, 'Pending Payment'),
-(8, 'Partial Deposit'),
-(9, 'Interested'),
-(10, 'Invitation Sent'),
-(11, 'Approved'),
-(12, 'Rejected'),
-(13, 'Expired'),
-(14, 'Review Needed'),
-(15, 'Rebooked'),
-(16, 'Group Hold'),
-(17, 'Completed'),
-(18, 'VIP Pending'),
-(19, 'Voucher Used'),
-(20, 'Locked');
+INSERT INTO REGISTRATIONSTATUS (RegistrationStatusID, StatusName) VALUES
+(1, 'Pending'),
+(2, 'Approved'),
+(3, 'Cancelled'),
+(4, 'Waiting List'),
+(5, 'Confirmed');
 
--- Insert data into the PAYMENTSTATUS table
-INSERT INTO PAYMENTSTATUS (PaymentStatusID, StatusName) VALUES 
-(1, 'Unpaid'),
-(2, 'Partial'),
-(3, 'Paid In Full'),
+INSERT INTO PAYMENTSTATUS (PaymentStatusID, StatusName) VALUES
+(1, 'Pending'),
+(2, 'Paid'),
+(3, 'Failed'),
 (4, 'Refunded'),
-(5, 'Declined'),
-(6, 'Processing'),
-(7, 'Voided'),
-(8, 'Chargeback'),
-(9, 'Authorized'),
-(10, 'Cash Pending'),
-(11, 'Bank Transfer Sent'),
-(12, 'Overpaid'),
-(13, 'Awaiting Verification'),
-(14, 'Credit Issued'),
-(15, 'Bad Debt'),
-(16, 'Written Off'),
-(17, 'Disputed'),
-(18, 'Installments'),
-(19, 'Gift Card'),
-(20, 'Comped');
+(5, 'Partial');
 
--- Insert data into the GUIDE table
-INSERT INTO GUIDE (GuideID, FirstName, LastName, Phone, Email, BirthDate, JoinDate, DailyRate, ExperienceYears, Rating) VALUES 
-(1, 'Yossi', 'Cohen', '050-1111111', 'yossi@gmail.com', '1985-05-10', '2015-01-01', 500.00, 10, 4.8),
-(2, 'Michal', 'Levi', '050-2222222', 'michal@gmail.com', '1990-03-15', '2018-06-12', 450.00, 6, 4.5),
-(3, 'David', 'Israeli', '050-3333333', 'david@gmail.com', '1978-11-20', '2010-02-25', 600.00, 15, 5.0),
-(4, 'Sarah', 'Blau', '050-4444444', 'sarah@gmail.com', '1992-07-30', '2020-09-01', 400.00, 3, 4.2),
-(5, 'Ron', 'Shahar', '050-5555555', 'ron@gmail.com', '1988-01-05', '2016-04-10', 520.00, 8, 4.7),
-(6, 'Dana', 'Tal', '050-6666666', 'dana@gmail.com', '1995-12-12', '2021-01-15', 380.00, 2, 4.0),
-(7, 'Avi', 'Mizrahi', '050-7777777', 'avi@gmail.com', '1982-08-08', '2012-05-05', 550.00, 12, 4.9),
-(8, 'Noa', 'Katz', '050-8888888', 'noa@gmail.com', '1991-04-22', '2019-02-28', 430.00, 5, 4.4),
-(9, 'Itay', 'Barak', '050-9999999', 'itay@gmail.com', '1980-02-14', '2011-11-11', 580.00, 13, 4.8),
-(10, 'Maya', 'Golan', '052-1111111', 'maya@gmail.com', '1993-10-10', '2022-03-01', 350.00, 1, 3.9),
-(11, 'Erez', 'Harel', '052-2222222', 'erez@gmail.com', '1984-06-06', '2014-07-07', 510.00, 10, 4.6),
-(12, 'Adi', 'Friedman', '052-3333333', 'adi@gmail.com', '1989-09-09', '2017-08-08', 470.00, 7, 4.5),
-(13, 'Omer', 'Dahan', '052-4444444', 'omer@gmail.com', '1986-05-25', '2015-12-12', 490.00, 9, 4.3),
-(14, 'Gal', 'Avni', '052-5555555', 'gal@gmail.com', '1994-01-20', '2020-05-05', 410.00, 4, 4.1),
-(15, 'Amit', 'Sela', '052-6666666', 'amit@gmail.com', '1981-12-30', '2013-02-02', 560.00, 11, 4.9),
-(16, 'Shir', 'Agmon', '052-7777777', 'shir@gmail.com', '1996-03-03', '2022-11-11', 360.00, 1, 4.0),
-(17, 'Nir', 'Bassan', '052-8888888', 'nir@gmail.com', '1975-04-18', '2005-06-01', 700.00, 20, 5.0),
-(18, 'Liat', 'Ziv', '052-9999999', 'liat@gmail.com', '1987-07-07', '2016-10-10', 500.00, 8, 4.6),
-(19, 'Tomer', 'Ben-Ari', '053-1111111', 'tomer@gmail.com', '1990-08-15', '2018-01-01', 440.00, 6, 4.4),
-(20, 'Roni', 'Erez', '053-2222222', 'roni@gmail.com', '1993-02-02', '2021-09-09', 390.00, 3, 4.2);
+-- שיטה 2: bulk בעזרת generate_series
+INSERT INTO DIFFICULTYLEVEL (DifficultyID, DifficultyName)
+SELECT gs, 'Difficulty ' || gs
+FROM generate_series(6,500) AS gs;
 
--- Insert data into the ROUTE table
-INSERT INTO ROUTE (RouteID, Name, EstimatedLength, EstimatedDuration, DifficultyID) VALUES 
-(1, 'Masada Sunrise', 5.5, 180, 4),
-(2, 'Nahal Arugot', 4.0, 120, 2),
-(3, 'Mount Carmel Forest', 10.2, 240, 3),
-(4, 'Tel Aviv Urban Walk', 3.0, 90, 1),
-(5, 'Eilat Red Canyon', 2.5, 60, 2),
-(6, 'Golan Heights Trail', 15.0, 360, 5),
-(7, 'Jerusalem Old City', 2.0, 120, 1),
-(8, 'Ein Gedi Waterfall', 1.5, 45, 1),
-(9, 'Arbel Cliff Hike', 4.5, 150, 4),
-(10, 'Mount Tabor Loop', 7.0, 200, 3),
-(11, 'Banias River Walk', 3.5, 100, 2),
-(12, 'Makhtesh Ramon Rim', 12.0, 300, 4),
-(13, 'Agamon Hula Birding', 8.0, 180, 1),
-(14, 'Nahal Kziv', 6.0, 180, 3),
-(15, 'Sataf Spring Trail', 3.0, 90, 2),
-(16, 'Mount Hermon Summit', 5.0, 210, 5),
-(17, 'Caesarea Ruins', 2.0, 60, 1),
-(18, 'Yehiam Fortress Hike', 4.0, 120, 2),
-(19, 'Nahal Alexander', 5.0, 120, 1),
-(20, 'Mount Meron Peak', 9.0, 240, 3);
+INSERT INTO TOURSTATUS (TourStatusID, StatusName)
+SELECT gs, 'Tour Status ' || gs
+FROM generate_series(6,500) AS gs;
 
--- Insert data into the GUIDEDTOUR table
-INSERT INTO GUIDEDTOUR (TourID, StartDate, MeetingPoint, Price, MaxParticipants, TourStatusID, GuideID, RouteID) VALUES 
-(1, '2024-05-01', 'Masada Entrance', 150.00, 20, 1, 1, 1),
-(2, '2024-05-05', 'Ein Gedi Parking', 120.00, 15, 1, 2, 2),
-(3, '2024-05-10', 'Haifa University', 100.00, 25, 1, 3, 3),
-(4, '2024-05-12', 'Habima Square', 80.00, 30, 1, 4, 4),
-(5, '2024-05-15', 'Eilat Canyon Site', 200.00, 10, 1, 5, 5),
-(6, '2024-06-01', 'Majdal Shams', 250.00, 12, 1, 6, 6),
-(7, '2024-06-02', 'Jaffa Gate', 90.00, 40, 1, 7, 7),
-(8, '2024-06-03', 'Ein Gedi Kiosk', 110.00, 20, 1, 8, 8),
-(9, '2024-06-05', 'Migdal Village', 140.00, 15, 1, 9, 9),
-(10, '2024-06-07', 'Mount Tabor Base', 130.00, 18, 1, 10, 10),
-(11, '2024-06-10', 'Banias Springs', 115.00, 22, 1, 11, 11),
-(12, '2024-06-15', 'Visitor Center Ramon', 180.00, 14, 1, 12, 12),
-(13, '2024-06-20', 'Hula Main Gate', 95.00, 35, 1, 13, 13),
-(14, '2024-06-25', 'Mitzpe Hila', 160.00, 20, 1, 14, 14),
-(15, '2024-07-01', 'Sataf Parking', 105.00, 25, 1, 15, 15),
-(16, '2024-07-05', 'Hermon Lower Base', 300.00, 8, 1, 16, 16),
-(17, '2024-07-10', 'National Park Entrance', 125.00, 30, 1, 17, 17),
-(18, '2024-07-15', 'Kibbutz Yehiam', 135.00, 15, 1, 18, 18),
-(19, '2024-07-20', 'Turtle Bridge', 85.00, 40, 1, 19, 19),
-(20, '2024-07-25', 'Beit Jann', 155.00, 18, 1, 20, 20);
+INSERT INTO REGISTRATIONSTATUS (RegistrationStatusID, StatusName)
+SELECT gs, 'Registration Status ' || gs
+FROM generate_series(6,500) AS gs;
 
--- Insert data into the CUSTOMER table
-INSERT INTO CUSTOMER (CustomerID, FullName, Phone, Email, JoinDate) VALUES 
-(1, 'Moshe Levi', '054-1234567', 'moshe@gmail.com', '2023-01-10'),
-(2, 'Rivka Dayan', '054-2345678', 'rivka@gmail.com', '2023-02-15'),
-(3, 'Yosi Amar', '054-3456789', 'yosi_a@gmail.com', '2023-03-20'),
-(4, 'Liora Peretz', '054-4567890', 'liora@gmail.com', '2023-04-05'),
-(5, 'Eyal Biton', '054-5678901', 'eyal@gmail.com', '2023-05-12'),
-(6, 'Dorit Gabbay', '054-6789012', 'dorit@gmail.com', '2023-06-18'),
-(7, 'Sharon Sabag', '054-7890123', 'sharon@gmail.com', '2023-07-22'),
-(8, 'Guy Ohayon', '054-8901234', 'guy@gmail.com', '2023-08-30'),
-(9, 'Tali Vaknin', '054-9012345', 'tali@gmail.com', '2023-09-14'),
-(10, 'Ben Hazan', '054-0123456', 'ben@gmail.com', '2023-10-10'),
-(11, 'Orit Elbaz', '058-1111111', 'orit@gmail.com', '2023-11-11'),
-(12, 'Ilan Melamed', '058-2222222', 'ilan@gmail.com', '2023-12-01'),
-(13, 'Hila Naveh', '058-3333333', 'hila@gmail.com', '2024-01-05'),
-(14, 'Niv Golan', '058-4444444', 'niv@gmail.com', '2024-01-20'),
-(15, 'Sapir Shani', '058-5555555', 'sapir@gmail.com', '2024-02-10'),
-(16, 'Roei Sagy', '058-6666666', 'roei@gmail.com', '2024-02-15'),
-(17, 'Maya Roz', '058-7777777', 'maya_r@gmail.com', '2024-02-28'),
-(18, 'Dan Arad', '058-8888888', 'dan@gmail.com', '2024-03-01'),
-(19, 'Ziv Alon', '058-9999999', 'ziv@gmail.com', '2024-03-05'),
-(20, 'Gali Koren', '053-3333333', 'gali@gmail.com', '2024-03-10');
+INSERT INTO PAYMENTSTATUS (PaymentStatusID, StatusName)
+SELECT gs, 'Payment Status ' || gs
+FROM generate_series(6,500) AS gs;
 
--- Insert data into the REGISTRATION table
-INSERT INTO REGISTRATION (RegistrationID, RegistrationDate, AmountToPay, TourID, RegistrationStatusID, CustomerID) VALUES 
-(1, '2024-04-01', 150.00, 1, 2, 1),
-(2, '2024-04-02', 120.00, 2, 2, 2),
-(3, '2024-04-03', 100.00, 3, 2, 3),
-(4, '2024-04-04', 80.00, 4, 1, 4),
-(5, '2024-04-05', 200.00, 5, 2, 5),
-(6, '2024-04-10', 250.00, 6, 2, 6),
-(7, '2024-04-11', 90.00, 7, 2, 7),
-(8, '2024-04-12', 110.00, 8, 2, 8),
-(9, '2024-04-15', 140.00, 9, 1, 9),
-(10, '2024-04-16', 130.00, 10, 2, 10),
-(11, '2024-04-17', 115.00, 11, 2, 11),
-(12, '2024-04-18', 180.00, 12, 1, 12),
-(13, '2024-04-19', 95.00, 13, 2, 13),
-(14, '2024-04-20', 160.00, 14, 2, 14),
-(15, '2024-04-21', 105.00, 15, 2, 15),
-(16, '2024-04-22', 300.00, 16, 2, 16),
-(17, '2024-04-23', 125.00, 17, 2, 17),
-(18, '2024-04-24', 135.00, 18, 1, 18),
-(19, '2024-04-25', 85.00, 19, 2, 19),
-(20, '2024-04-26', 155.00, 20, 2, 20);
+INSERT INTO GUIDE
+(
+    GuideID, FirstName, LastName, Phone, Email, BirthDate, JoinDate,
+    DailyRate, ExperienceYears, Rating, Address, Notes
+)
+SELECT
+    gs,
+    'GuideFirst' || gs,
+    'GuideLast' || gs,
+    '050' || LPAD(gs::text, 7, '0'),
+    'guide' || gs || '@mail.com',
+    DATE '1980-01-01' + ((gs % 10000) * INTERVAL '1 day'),
+    DATE '2015-01-01' + ((gs % 3000) * INTERVAL '1 day'),
+    (300 + (gs % 200))::NUMERIC(8,2),
+    (gs % 21),
+    ((gs % 50) / 10.0)::NUMERIC(3,2),
+    'Address ' || gs,
+    'Guide note ' || gs
+FROM generate_series(1,500) AS gs;
 
--- Insert data into the PAYMENT table
-INSERT INTO PAYMENT (PaymentID, PaymentDate, Amount, PaymentMethod, RegistrationID, PaymentStatusID) VALUES 
-(1, '2024-04-01', 150.00, 'Credit Card', 1, 3),
-(2, '2024-04-02', 120.00, 'PayPal', 2, 3),
-(3, '2024-04-03', 100.00, 'Cash', 3, 3),
-(4, '2024-04-04', 40.00, 'Credit Card', 4, 2),
-(5, '2024-04-05', 200.00, 'Bank Transfer', 5, 3),
-(6, '2024-04-10', 250.00, 'Credit Card', 6, 3),
-(7, '2024-04-11', 90.00, 'PayPal', 7, 3),
-(8, '2024-04-12', 110.00, 'Cash', 8, 3),
-(9, '2024-04-15', 0.00, 'Credit Card', 9, 1),
-(10, '2024-04-16', 130.00, 'Bank Transfer', 10, 3),
-(11, '2024-04-17', 115.00, 'Credit Card', 11, 3),
-(12, '2024-04-18', 0.00, 'PayPal', 12, 1),
-(13, '2024-04-19', 95.00, 'Cash', 13, 3),
-(14, '2024-04-20', 160.00, 'Credit Card', 14, 3),
-(15, '2024-04-21', 105.00, 'PayPal', 15, 3),
-(16, '2024-04-22', 300.00, 'Bank Transfer', 16, 3),
-(17, '2024-04-23', 125.00, 'Credit Card', 17, 3),
-(18, '2024-04-24', 0.00, 'Cash', 18, 1),
-(19, '2024-04-25', 85.00, 'Credit Card', 19, 3),
-(20, '2024-04-26', 155.00, 'PayPal', 20, 3);
+INSERT INTO ROUTE
+(
+    RouteID, Name, EstimatedLength, EstimatedDuration, Description, DifficultyID
+)
+SELECT
+    gs,
+    'Route ' || gs,
+    (2 + (gs % 25))::NUMERIC(8,2),
+    60 + (gs % 360),
+    'Description for route ' || gs,
+    ((gs - 1) % 500) + 1
+FROM generate_series(1,500) AS gs;
+
+INSERT INTO CUSTOMER
+(
+    CustomerID, FullName, Phone, Email, JoinDate
+)
+SELECT
+    gs,
+    'Customer ' || gs,
+    '052' || LPAD(gs::text, 7, '0'),
+    'customer' || gs || '@mail.com',
+    DATE '2022-01-01' + ((gs % 1200) * INTERVAL '1 day')
+FROM generate_series(1,500) AS gs;
+
+INSERT INTO GUIDEDTOUR
+(
+    TourID, StartDate, EndDate, StartTime, EndTime, MeetingPoint, Price,
+    MaxParticipants, Notes, TourStatusID, GuideID, RouteID
+)
+SELECT
+    gs,
+    DATE '2025-01-01' + ((gs % 365) * INTERVAL '1 day'),
+    DATE '2025-01-01' + ((gs % 365) * INTERVAL '1 day') + INTERVAL '1 day',
+    '08:00',
+    '16:00',
+    'Meeting Point ' || gs,
+    (100 + (gs % 400))::NUMERIC(8,2),
+    10 + (gs % 41),
+    'Tour note ' || gs,
+    ((gs - 1) % 500) + 1,
+    ((gs - 1) % 500) + 1,
+    ((gs - 1) % 500) + 1
+FROM generate_series(1,500) AS gs;
+
+INSERT INTO REGISTRATION
+(
+    RegistrationID, RegistrationDate, AmountToPay, Notes, TourID,
+    RegistrationStatusID, CustomerID
+)
+SELECT
+    gs,
+    DATE '2025-01-01' + ((gs % 365) * INTERVAL '1 day'),
+    (80 + (gs % 420))::NUMERIC(8,2),
+    'Registration note ' || gs,
+    ((gs - 1) % 500) + 1,
+    ((gs - 1) % 500) + 1,
+    ((gs - 1) % 500) + 1
+FROM generate_series(1,20000) AS gs;
+
+INSERT INTO PAYMENT
+(
+    PaymentID, PaymentDate, Amount, Notes, PaymentMethod,
+    ReferenceNumber, RegistrationID, PaymentStatusID
+)
+SELECT
+    gs,
+    DATE '2025-01-01' + ((gs % 365) * INTERVAL '1 day'),
+    (50 + (gs % 450))::NUMERIC(8,2),
+    'Payment note ' || gs,
+    CASE gs % 4
+        WHEN 0 THEN 'Cash'
+        WHEN 1 THEN 'Credit Card'
+        WHEN 2 THEN 'Bank Transfer'
+        ELSE 'PayPal'
+    END,
+    'REF' || gs,
+    gs,
+    ((gs - 1) % 500) + 1
+FROM generate_series(1,20000) AS gs;
