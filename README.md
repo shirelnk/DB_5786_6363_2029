@@ -666,8 +666,14 @@ WHERE CustomerID NOT IN (
 );
 ```
 
-📸
+📸 Before execution:
+<img width="1321" height="891" alt="delete1_before_stage2 png" src="https://github.com/user-attachments/assets/5c2a4bec-5ea6-46d0-8101-1a1954ff1640" />
 
+📸 Delete execution:
+<img width="1311" height="879" alt="delete1_stage2 png" src="https://github.com/user-attachments/assets/de2e5b52-8bd5-411e-84b0-494de71cc105" />
+
+📸 After execution:
+<img width="1318" height="875" alt="delete1_after_stage2 png" src="https://github.com/user-attachments/assets/59dff830-2c10-4f1f-b7dc-7fb3e52ccd41" />
 ---
 
 ### Delete 2 – Delete Payments Older Than 5 Years
@@ -682,16 +688,14 @@ WHERE PaymentDate < CURRENT_DATE - INTERVAL '5 years';
 ```
 
 📸 Before execution:
+<img width="1330" height="887" alt="delete2_before_stage2 png" src="https://github.com/user-attachments/assets/aae9ed8e-ce59-47d0-91c4-678b9e38b76a" />
 
-<!-- Insert delete2_before_stage2.png here -->
 
 📸 Delete execution:
-
-<!-- Insert delete2_stage2.png here -->
+<img width="1336" height="885" alt="delete2_stage2 png" src="https://github.com/user-attachments/assets/dd05e9cc-a4a2-4a34-a87d-d20c8cdcc811" />
 
 📸 After execution:
-
-<!-- Insert delete2_after_stage2.png here -->
+<img width="1342" height="888" alt="delete2_after_stage2 png" src="https://github.com/user-attachments/assets/feef4039-de5d-4ba4-9a0f-2351605eac83" />
 
 ---
 
@@ -709,13 +713,13 @@ WHERE RouteID NOT IN (
 ```
 
 📸 Before execution:
+<img width="1324" height="893" alt="delete3_before_stage2 png" src="https://github.com/user-attachments/assets/d466f20f-2dc8-443b-9acd-c73776133c4a" />
 
-<!-- Insert delete3_before_stage2.png here -->
 
 📸 Delete execution:
+<img width="1343" height="895" alt="delete3_stage2" src="https://github.com/user-attachments/assets/c65ba6a1-e566-48cc-8c4e-739735104ef5" />
 
-<!-- Insert delete3_stage2.png here -->
 
 📸 After execution:
+<img width="1324" height="877" alt="delete3_after_stage2" src="https://github.com/user-attachments/assets/08cbef32-f199-4e11-9dd7-5fe950869201" />
 
-<!-- Insert delete3_after_stage2.png here -->
