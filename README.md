@@ -326,7 +326,7 @@ This phase strengthens the database logic, ensures data integrity, and improves 
 Each query below includes:
 
 A description in English
-A screenshot of the query execution in SSMS
+A screenshot of the query execution in pgAdmin
 A screenshot showing the result (only 5 rows maximum per screenshot)
 
 ---
@@ -723,3 +723,416 @@ WHERE RouteID NOT IN (
 📸 After execution:
 <img width="1324" height="877" alt="delete3_after_stage2" src="https://github.com/user-attachments/assets/08cbef32-f199-4e11-9dd7-5fe950869201" />
 
+---
+
+## UPDATE Operations
+
+Each UPDATE operation includes a short description, the SQL command, a screenshot before execution, a screenshot of the execution, and a screenshot after execution.
+
+---
+
+### Update 1 – Incentive: 10% Raise for Top Guides
+
+#### Description
+This query increases the daily rate of highly rated and experienced guides by 10%.  
+It rewards guides with excellent performance and long-term experience.
+
+```sql
+UPDATE GUIDE
+SET DailyRate = DailyRate * 1.10
+WHERE Rating > 4.8 AND ExperienceYears > 5;
+```
+📸 Before execution:
+<img width="1334" height="892" alt="update1_before_stage2" src="https://github.com/user-attachments/assets/b5baf601-0383-46cf-abab-eb9ee88ec0de" />
+
+📸 Update execution:
+<img width="1337" height="890" alt="update1_stage2" src="https://github.com/user-attachments/assets/f1fd8a80-3a29-4811-8721-c95361340666" />
+
+📸 After execution:
+<img width="1337" height="885" alt="update1_after_stage2" src="https://github.com/user-attachments/assets/12aabb1c-234b-4874-90a1-bf7b39ef2c37" />
+
+### Update 2 – Maintenance: Auto-Complete Past Tours
+
+#### Description
+
+This query updates all tours that have already ended and marks them as "Completed".
+It ensures that the system reflects the correct status of past tours.
+
+```sql
+UPDATE GUIDEDTOUR
+SET TourStatusID = (
+    SELECT TourStatusID 
+    FROM TOURSTATUS 
+    WHERE StatusName = 'Completed'
+)
+WHERE EndDate < CURRENT_DATE 
+  AND TourStatusID != (
+    SELECT TourStatusID 
+    FROM TOURSTATUS 
+    WHERE StatusName = 'Completed'
+);
+```
+📸 Before execution:
+<img width="1345" height="902" alt="update2_before_stage2" src="https://github.com/user-attachments/assets/c4a17990-1801-4a97-b2c2-8fd0c480d048" />
+
+📸 Update execution:
+<img width="1340" height="893" alt="update2_stage2" src="https://github.com/user-attachments/assets/3324f73c-913e-499e-be82-a440f5bfc6a4" />
+
+📸 After execution:
+<img width="1337" height="885" alt="update2_after_stage2" src="https://github.com/user-attachments/assets/0f994349-88c1-47bd-b061-2ece5eee4f6b" />
+
+### Update 3 – Data Standardization: Israeli Phone Format
+
+#### Description
+
+This query standardizes phone numbers to the Israeli international format (+972).
+It converts numbers starting with '0' into the international format.
+
+UPDATE CUSTOMER
+SET Phone = CONCAT('+972', SUBSTRING(Phone, 2))
+WHERE Phone LIKE '0%';
+
+📸 Before execution:
+<img width="1332" height="884" alt="update3_before_stage2" src="https://github.com/user-attachments/assets/d4e781fe-2f34-4aa0-8d70-e72a2bf9919f" />
+
+📸 Update execution:
+<img width="1337" height="889" alt="update3_stage2" src="https://github.com/user-attachments/assets/562a803e-41f5-4497-ad65-b67f8fbad2fc" />
+
+📸 After execution:
+<img width="1346" height="889" alt="update3_after_stage2" src="https://github.com/user-attachments/assets/c7c45cde-eff9-4c44-8a7b-521c466f8f6f" />
+
+---
+
+## Constraints using ALTER TABLE
+
+Each constraint includes a description, the ALTER TABLE command, a violation test, and screenshots showing both the constraint creation and the error.
+
+---
+
+### Constraint 1 – Guide Rating Validation
+
+#### Description
+This constraint ensures that every guide rating is between 0 and 5.  
+It prevents invalid rating values such as negative ratings or ratings higher than 5.
+
+```sql
+ALTER TABLE GUIDE 
+ADD CONSTRAINT chk_guide_rating 
+CHECK (Rating >= 0 AND Rating <= 5);
+```
+
+📸 Constraint added:
+<img width="1340" height="887" alt="constraint1_stage2" src="https://github.com/user-attachments/assets/9f32bbfd-8112-4135-91cf-88268d05bb90" />
+
+Violation Test
+INSERT INTO GUIDE 
+(GuideID, FirstName, LastName, Email, Phone, DailyRate, Rating, ExperienceYears)
+VALUES 
+(99999, 'Test', 'Guide', 'testguide99999@test.com', '0500000000', 500, 6, 3);
+
+📸 Error result:
+<img width="1348" height="888" alt="constraint1_error_stage2" src="https://github.com/user-attachments/assets/ce5331c7-e0c2-4a96-96ed-182fb3f896e3" />
+
+### Constraint 2 – Unique Customer Email
+
+#### Description
+
+This constraint ensures that each customer email appears only once in the CUSTOMER table.
+It prevents duplicate customer records with the same email address.
+
+```sql
+ALTER TABLE CUSTOMER 
+ADD CONSTRAINT uni_cust_email 
+UNIQUE (Email);
+```
+
+📸 Constraint added:
+<img width="1334" height="884" alt="constraint2_stage2" src="https://github.com/user-attachments/assets/71460040-c5b5-4f00-b745-c0e56f0b1ee6" />
+
+Violation Test
+
+First, we checked an existing email:
+
+SELECT CustomerID, FullName, Email
+FROM CUSTOMER
+LIMIT 1;
+
+📸 Existing email:
+<img width="1339" height="883" alt="constraint2_existing_email_stage2" src="https://github.com/user-attachments/assets/5aaeb1ab-658e-4599-8d0f-b1de95234125" />
+
+Then we tried to insert a new customer with the same email:
+
+```sql
+INSERT INTO CUSTOMER 
+(CustomerID, FullName, Phone, Email, JoinDate)
+VALUES 
+(99998, 'Duplicate Email Customer', '0501111111', 'customer1@mail.com', CURRENT_DATE);
+```
+📸 Error result:
+<img width="1328" height="887" alt="constraint2_error_stage2" src="https://github.com/user-attachments/assets/31b3e29d-5244-4b8a-8471-f599d3bbfd20" />
+
+Constraint 3 – Tour Date Consistency
+Description
+
+This constraint ensures that a guided tour cannot end before it starts.
+It protects the system from invalid tour dates.
+
+```sql
+ALTER TABLE GUIDEDTOUR 
+ADD CONSTRAINT chk_tour_dates 
+CHECK (EndDate >= StartDate);
+```
+📸 Constraint added:
+<img width="1343" height="886" alt="constraint3_stage2" src="https://github.com/user-attachments/assets/0514dd5f-e4ee-4543-b60f-1d9dfe9893a9" />
+
+Violation Test
+
+```sql
+INSERT INTO GUIDEDTOUR
+(TourID, RouteID, GuideID, StartDate, EndDate, MaxParticipants, TourStatusID, MeetingPoint)
+VALUES
+(99997, 1, 1, CURRENT_DATE, CURRENT_DATE - INTERVAL '1 day', 20, 1, 'Test');
+```
+
+📸 Error result:
+<img width="1350" height="894" alt="constraint3_error_stage2" src="https://github.com/user-attachments/assets/84509312-1882-42e9-b8be-509401224550" />
+
+---
+
+## Transactions: COMMIT and ROLLBACK
+
+Each scenario demonstrates transaction control using BEGIN, COMMIT, and ROLLBACK.  
+Screenshots show the database state at each stage.
+
+---
+
+### Scenario 1 – Accidental Update and ROLLBACK
+
+#### Description
+This scenario demonstrates how an incorrect update can be reverted using ROLLBACK.
+
+---
+
+#### Step 1 – View current data
+
+```sql
+SELECT GuideID, FirstName, Rating 
+FROM GUIDE 
+LIMIT 5;
+```
+📸 Before update:
+<img width="1360" height="881" src="https://github.com/user-attachments/assets/0e88ae32-552e-4ed5-978c-81f4737c7f93" />
+
+Step 2 – Start transaction and perform incorrect update
+BEGIN;
+
+UPDATE GUIDE 
+SET Rating = 5.0;
+
+📸 Update executed:
+<img width="1341" height="880" src="https://github.com/user-attachments/assets/7105a432-0a47-4eb8-8075-36b8bd679f31" />
+
+Step 3 – Verify the mistake
+SELECT GuideID, FirstName, Rating 
+FROM GUIDE 
+LIMIT 5;
+
+📸 After wrong update (all ratings = 5):
+<img width="1328" height="894" src="https://github.com/user-attachments/assets/a4e6fb10-95a0-41a5-a389-115c0522ec5a" />
+
+Step 4 – Rollback changes
+ROLLBACK;
+
+📸 Rollback executed:
+<img width="1320" height="883" src="https://github.com/user-attachments/assets/9c505495-6416-4615-8b9f-daa1ef94f58e" />
+
+Step 5 – Verify restoration
+SELECT GuideID, FirstName, Rating 
+FROM GUIDE 
+LIMIT 5;
+
+📸 After rollback (original values restored):
+<img width="1358" height="895" src="https://github.com/user-attachments/assets/82f64553-3ec4-47d9-87f3-7e0d2c8588aa" />
+
+Scenario 2 – Valid Update and COMMIT
+Description
+
+This scenario demonstrates how a correct update is permanently saved using COMMIT.
+
+Step 1 – View current data
+SELECT FullName, Email 
+FROM CUSTOMER 
+WHERE CustomerID = 1;
+
+📸 Before update:
+<img width="1329" height="898" src="https://github.com/user-attachments/assets/ed372269-6099-447e-8618-b15eac3eca5d" />
+
+Step 2 – Start transaction and update data
+BEGIN;
+
+UPDATE CUSTOMER 
+SET Email = 'new_email@gmail.com' 
+WHERE CustomerID = 1;
+
+📸 Update executed:
+<img width="1325" height="886" src="https://github.com/user-attachments/assets/b9e007e4-b523-4d07-907a-e5437b5d3158" />
+
+Step 3 – Commit changes
+COMMIT;
+
+📸 Commit executed:
+<img width="1333" height="891" src="https://github.com/user-attachments/assets/d1a16c2b-d36f-4350-93ab-332ae091ea0d" />
+
+Step 4 – Verify persistence
+SELECT FullName, Email 
+FROM CUSTOMER 
+WHERE CustomerID = 1;
+
+📸 After commit (new email saved):
+<img width="1334" height="893" src="https://github.com/user-attachments/assets/80ad4a68-66fa-41d9-b8c3-c976e057d3e5" />
+
+---
+
+## Indexes and Performance Analysis
+
+Each index is evaluated by measuring query runtime before and after its creation.  
+The execution time is obtained using `EXPLAIN ANALYZE`.
+
+---
+
+### Index 1 – PaymentDate Optimization
+
+#### Description
+This index improves performance for queries that filter payments by date range.
+
+#### Query BEFORE index
+
+```sql
+EXPLAIN ANALYZE
+SELECT *
+FROM PAYMENT
+WHERE PaymentDate BETWEEN '2026-01-01' AND '2026-12-31';
+
+📸 Before index:
+<img width="1335" height="874" alt="index1_before_stage2" src="https://github.com/user-attachments/assets/4e43432a-7ee0-43f7-8e70-c31ab6afb689" />
+
+⏱ Execution Time: 12.3 ms
+
+Create Index
+CREATE INDEX idx_payment_paymentdate
+ON PAYMENT (PaymentDate);
+
+📸 Index creation:
+<img width="1341" height="878" alt="index1_create_stage2" src="https://github.com/user-attachments/assets/ae9fcff0-a8fd-491c-b77a-91b5f1f848c1" />
+
+Query AFTER index
+EXPLAIN ANALYZE
+SELECT *
+FROM PAYMENT
+WHERE PaymentDate BETWEEN '2026-01-01' AND '2026-12-31';
+
+📸 After index:
+<img width="1353" height="908" alt="index1_after_stage2" src="https://github.com/user-attachments/assets/a44d75a2-a877-487a-82d9-9db8b4ef0a5f" />
+
+⏱ Execution Time: 0.008 ms
+
+Analysis
+
+Before the index, PostgreSQL used a sequential scan and checked many rows.
+After creating the index on PaymentDate, PostgreSQL used an index scan, so it accessed the relevant rows much faster.
+
+Index 2 – Registration by TourID
+Description
+
+This index improves performance when retrieving registrations for a specific tour.
+
+Query BEFORE index
+EXPLAIN ANALYZE
+SELECT *
+FROM REGISTRATION
+WHERE TourID = 1;
+
+📸 Before index:
+<img width="1333" height="893" alt="index2_before_stage2" src="https://github.com/user-attachments/assets/fe71c596-3cbe-4abb-888c-e0bf3d4ffdaf" />
+
+⏱ Execution Time: 9.896 ms
+
+Create Index
+CREATE INDEX idx_registration_tourid
+ON REGISTRATION (TourID);
+
+📸 Index creation:
+<img width="1340" height="884" alt="index2_create_stage2" src="https://github.com/user-attachments/assets/4afec164-b6b5-4856-9735-39b1e640cb12" />
+
+Query AFTER index
+EXPLAIN ANALYZE
+SELECT *
+FROM REGISTRATION
+WHERE TourID = 1;
+
+📸 After index:
+<img width="1345" height="880" alt="index2_after_stage2" src="https://github.com/user-attachments/assets/b21ada0f-7b08-4885-9620-31fa799e0aa9" />
+
+⏱ Execution Time: 0.134 ms
+
+Analysis
+
+Before the index, PostgreSQL scanned the registration table and filtered rows by TourID.
+After creating the index, PostgreSQL used the TourID index to find matching registrations directly.
+
+Index 3 – GuidedTour by RouteID
+Description
+
+This index improves performance when searching for tours by route.
+
+Query BEFORE index
+EXPLAIN ANALYZE
+SELECT *
+FROM GUIDEDTOUR
+WHERE RouteID = 1;
+
+📸 Before index:
+<img width="1355" height="889" alt="index3_before_stage2" src="https://github.com/user-attachments/assets/c88b7649-eef6-4806-9702-7133ff7fbfb2" />
+
+⏱ Execution Time: 0.062 ms
+
+Create Index
+CREATE INDEX idx_guidedtour_routeid
+ON GUIDEDTOUR (RouteID);
+
+📸 Index creation:
+<img width="1340" height="892" alt="index3_create_stage2" src="https://github.com/user-attachments/assets/cf6fea0f-4cd3-4da8-8c56-f6b08cf75dce" />
+
+Query AFTER index
+EXPLAIN ANALYZE
+SELECT *
+FROM GUIDEDTOUR
+WHERE RouteID = 1;
+
+📸 After index:
+<img width="1349" height="912" alt="index3_after_stage2" src="https://github.com/user-attachments/assets/29778291-4021-475b-ada6-0564fe3c69a7" />
+
+⏱ Execution Time: 0.050 ms
+
+Analysis
+
+The improvement is small because the GUIDEDTOUR table is relatively small compared to the other tables.
+However, after adding the index, PostgreSQL can use an index scan on RouteID, which becomes more beneficial as the table grows.
+
+---
+
+## Backup File (Phase 2)
+
+A full backup of the database after completing Phase 2 is included.
+
+📁 Location:
+
+backups/backup_04_05_2026.sql.sql
+
+
+This backup file contains:
+- All tables (schema)
+- All data (records)
+- Constraints and indexes created in Phase 2
+
+The backup can be used to fully restore the database.
