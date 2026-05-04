@@ -16,6 +16,7 @@ Guided Tour Management
 ---
 
 ## Table of Contents
+
 - [Phase 1: Design and Build the Database](#phase-1-design-and-build-the-database)
   - [Introduction](#introduction)
   - [System Screens (AI)](#system-screens-ai)
@@ -24,18 +25,20 @@ Guided Tour Management
   - [Design Decisions](#design-decisions)
   - [Data Insertion](#data-insertion)
   - [Backup and Restore](#backup-and-restore)
-- [Phase 2: Advanced SQL and Data Manipulation](#phase-2-advanced-sql-and-data-manipulation)
-  - [Introduction](#introduction)
-  - [Complex SELECT Queries (Paired Queries)](#complex-select-queries-paired-queries)
-  - [Additional SELECT Queries](#additional-select-queries)
-  - [DELETE Queries](#delete-queries)
-  - [UPDATE Queries](#update-queries)
-  - [Constraints](#constraints)
-  - [Transaction Management](#transaction-management)
-  - [Indexes](#indexes)
-  - [Backup 2](#backup-2)
   - [Summary](#summary)
 
+- [Phase 2: Advanced SQL and Data Manipulation](#phase-2-advanced-sql-and-data-manipulation)
+  - [Introduction](#introduction-1)
+  - [Complex SELECT Queries](#complex-select-queries)
+  - [Additional SELECT Queries](#additional-select-queries)
+  - [DELETE Operations](#delete-operations)
+  - [UPDATE Operations](#update-operations)
+  - [Constraints using ALTER TABLE](#constraints-using-alter-table)
+  - [Transactions: COMMIT and ROLLBACK](#transactions-commit-and-rollback)
+  - [Indexes and Performance Analysis](#indexes-and-performance-analysis)
+  - [Backup File (Phase 2)](#backup-file-phase-2)
+
+---
 
 ##  Introduction
 
@@ -456,11 +459,8 @@ WHERE rt.Description LIKE '%Jerusalem%'
       WHERE StatusName = 'Pending'
   );
 ```
-
 📸
-.. חסר
-
-
+<img width="1333" height="891" alt="image" src="https://github.com/user-attachments/assets/c9704752-ba62-4b7e-aa73-b4e5eb781680" />
 
 ---
 
@@ -483,8 +483,8 @@ WHERE EXISTS (
       )
 );
 ```
-
 📸 
+<img width="1332" height="883" alt="image" src="https://github.com/user-attachments/assets/67965c9c-ba60-4b04-ab2a-3fa80d32061b" />
 
 
 
@@ -619,7 +619,6 @@ ORDER BY TotalCapacity DESC;
 📸 
 <img width="309" height="262" alt="image" src="https://github.com/user-attachments/assets/688516e8-08a9-42f4-a6ea-c54bfaafd0aa" />
 
-
 ---
 
 ### Query 8 – Quality Control: Low Experience Feedback
@@ -644,6 +643,7 @@ WHERE g.ExperienceYears < 2
 
 📸
 <img width="678" height="826" alt="image" src="https://github.com/user-attachments/assets/5c4dafe5-fec4-41c4-9376-028d49929515" />
+
 ---
 
 ## DELETE Operations
@@ -674,6 +674,7 @@ WHERE CustomerID NOT IN (
 
 📸 After execution:
 <img width="1318" height="875" alt="delete1_after_stage2 png" src="https://github.com/user-attachments/assets/59dff830-2c10-4f1f-b7dc-7fb3e52ccd41" />
+
 ---
 
 ### Delete 2 – Delete Payments Older Than 5 Years
@@ -755,7 +756,7 @@ WHERE Rating > 4.8 AND ExperienceYears > 5;
 
 #### Description
 
-This query updates all tours that have already ended and marks them as "Completed".
+This query updates all tours that have already ended and marks them as 'Completed'.
 It ensures that the system reflects the correct status of past tours.
 
 ```sql
@@ -788,9 +789,11 @@ WHERE EndDate < CURRENT_DATE
 This query standardizes phone numbers to the Israeli international format (+972).
 It converts numbers starting with '0' into the international format.
 
+```sql
 UPDATE CUSTOMER
 SET Phone = CONCAT('+972', SUBSTRING(Phone, 2))
 WHERE Phone LIKE '0%';
+```
 
 📸 Before execution:
 <img width="1332" height="884" alt="update3_before_stage2" src="https://github.com/user-attachments/assets/d4e781fe-2f34-4aa0-8d70-e72a2bf9919f" />
@@ -824,14 +827,17 @@ CHECK (Rating >= 0 AND Rating <= 5);
 📸 Constraint added:
 <img width="1340" height="887" alt="constraint1_stage2" src="https://github.com/user-attachments/assets/9f32bbfd-8112-4135-91cf-88268d05bb90" />
 
-Violation Test
+#### Violation Test
+```sql
 INSERT INTO GUIDE 
 (GuideID, FirstName, LastName, Email, Phone, DailyRate, Rating, ExperienceYears)
 VALUES 
 (99999, 'Test', 'Guide', 'testguide99999@test.com', '0500000000', 500, 6, 3);
-
+```
 📸 Error result:
 <img width="1348" height="888" alt="constraint1_error_stage2" src="https://github.com/user-attachments/assets/ce5331c7-e0c2-4a96-96ed-182fb3f896e3" />
+
+---
 
 ### Constraint 2 – Unique Customer Email
 
@@ -845,18 +851,18 @@ ALTER TABLE CUSTOMER
 ADD CONSTRAINT uni_cust_email 
 UNIQUE (Email);
 ```
-
 📸 Constraint added:
 <img width="1334" height="884" alt="constraint2_stage2" src="https://github.com/user-attachments/assets/71460040-c5b5-4f00-b745-c0e56f0b1ee6" />
 
-Violation Test
+#### Violation Test
 
 First, we checked an existing email:
 
+```sql
 SELECT CustomerID, FullName, Email
 FROM CUSTOMER
 LIMIT 1;
-
+```
 📸 Existing email:
 <img width="1339" height="883" alt="constraint2_existing_email_stage2" src="https://github.com/user-attachments/assets/5aaeb1ab-658e-4599-8d0f-b1de95234125" />
 
@@ -871,8 +877,11 @@ VALUES
 📸 Error result:
 <img width="1328" height="887" alt="constraint2_error_stage2" src="https://github.com/user-attachments/assets/31b3e29d-5244-4b8a-8471-f599d3bbfd20" />
 
-Constraint 3 – Tour Date Consistency
-Description
+---
+
+### Constraint 3 – Tour Date Consistency
+
+#### Description
 
 This constraint ensures that a guided tour cannot end before it starts.
 It protects the system from invalid tour dates.
@@ -885,7 +894,7 @@ CHECK (EndDate >= StartDate);
 📸 Constraint added:
 <img width="1343" height="886" alt="constraint3_stage2" src="https://github.com/user-attachments/assets/0514dd5f-e4ee-4543-b60f-1d9dfe9893a9" />
 
-Violation Test
+#### Violation Test
 
 ```sql
 INSERT INTO GUIDEDTOUR
@@ -920,73 +929,100 @@ SELECT GuideID, FirstName, Rating
 FROM GUIDE 
 LIMIT 5;
 ```
+
 📸 Before update:
 <img width="1360" height="881" src="https://github.com/user-attachments/assets/0e88ae32-552e-4ed5-978c-81f4737c7f93" />
 
-Step 2 – Start transaction and perform incorrect update
-BEGIN;
+#### Step 2 – Start transaction and perform incorrect update
 
+```sql
+BEGIN;
 UPDATE GUIDE 
 SET Rating = 5.0;
+```
 
 📸 Update executed:
 <img width="1341" height="880" src="https://github.com/user-attachments/assets/7105a432-0a47-4eb8-8075-36b8bd679f31" />
 
-Step 3 – Verify the mistake
+#### Step 3 – Verify the mistake
+
+```sql
 SELECT GuideID, FirstName, Rating 
 FROM GUIDE 
 LIMIT 5;
+```
 
 📸 After wrong update (all ratings = 5):
 <img width="1328" height="894" src="https://github.com/user-attachments/assets/a4e6fb10-95a0-41a5-a389-115c0522ec5a" />
 
-Step 4 – Rollback changes
+#### Step 4 – Rollback changes
+
+```sql
 ROLLBACK;
+```
 
 📸 Rollback executed:
 <img width="1320" height="883" src="https://github.com/user-attachments/assets/9c505495-6416-4615-8b9f-daa1ef94f58e" />
 
-Step 5 – Verify restoration
+#### Step 5 – Verify restoration
+
+```sql
 SELECT GuideID, FirstName, Rating 
 FROM GUIDE 
 LIMIT 5;
+```
 
 📸 After rollback (original values restored):
 <img width="1358" height="895" src="https://github.com/user-attachments/assets/82f64553-3ec4-47d9-87f3-7e0d2c8588aa" />
 
-Scenario 2 – Valid Update and COMMIT
-Description
+---
+
+### Scenario 2 – Valid Update and COMMIT
+
+#### Description
 
 This scenario demonstrates how a correct update is permanently saved using COMMIT.
 
-Step 1 – View current data
+#### Step 1 – View current data
+
+```sql
 SELECT FullName, Email 
 FROM CUSTOMER 
 WHERE CustomerID = 1;
+```
 
 📸 Before update:
 <img width="1329" height="898" src="https://github.com/user-attachments/assets/ed372269-6099-447e-8618-b15eac3eca5d" />
 
-Step 2 – Start transaction and update data
+#### Step 2 – Start transaction and update data
+
+```sql
 BEGIN;
 
 UPDATE CUSTOMER 
 SET Email = 'new_email@gmail.com' 
 WHERE CustomerID = 1;
+```
 
 📸 Update executed:
 <img width="1325" height="886" src="https://github.com/user-attachments/assets/b9e007e4-b523-4d07-907a-e5437b5d3158" />
 
-Step 3 – Commit changes
+#### Step 3 – Commit changes
+
+```sql
 COMMIT;
+```
 
 📸 Commit executed:
 <img width="1333" height="891" src="https://github.com/user-attachments/assets/d1a16c2b-d36f-4350-93ab-332ae091ea0d" />
 
-Step 4 – Verify persistence
+#### Step 4 – Verify persistence
+
+```sql
 SELECT FullName, Email 
 FROM CUSTOMER 
 WHERE CustomerID = 1;
+```
 
 📸 After commit (new email saved):
 <img width="1334" height="893" src="https://github.com/user-attachments/assets/80ad4a68-66fa-41d9-b8c3-c976e057d3e5" />
@@ -1012,112 +1048,147 @@ EXPLAIN ANALYZE
 SELECT *
 FROM PAYMENT
 WHERE PaymentDate BETWEEN '2026-01-01' AND '2026-12-31';
+```
 
 📸 Before index:
-<img width="1335" height="874" alt="index1_before_stage2" src="https://github.com/user-attachments/assets/4e43432a-7ee0-43f7-8e70-c31ab6afb689" />
+
+<img width="1335" height="874" src="https://github.com/user-attachments/assets/4e43432a-7ee0-43f7-8e70-c31ab6afb689" />
 
 ⏱ Execution Time: 12.3 ms
 
-Create Index
+#### Create Index
+
+```sql
 CREATE INDEX idx_payment_paymentdate
 ON PAYMENT (PaymentDate);
+```
 
 📸 Index creation:
-<img width="1341" height="878" alt="index1_create_stage2" src="https://github.com/user-attachments/assets/ae9fcff0-a8fd-491c-b77a-91b5f1f848c1" />
 
-Query AFTER index
+<img width="1341" height="878" src="https://github.com/user-attachments/assets/ae9fcff0-a8fd-491c-b77a-91b5f1f848c1" />
+
+#### Query AFTER index
+
+```sql
 EXPLAIN ANALYZE
 SELECT *
 FROM PAYMENT
 WHERE PaymentDate BETWEEN '2026-01-01' AND '2026-12-31';
+```
 
 📸 After index:
-<img width="1353" height="908" alt="index1_after_stage2" src="https://github.com/user-attachments/assets/a44d75a2-a877-487a-82d9-9db8b4ef0a5f" />
+
+<img width="1353" height="908" src="https://github.com/user-attachments/assets/a44d75a2-a877-487a-82d9-9db8b4ef0a5f" />
 
 ⏱ Execution Time: 0.008 ms
 
-Analysis
+#### Analysis
+Before the index, PostgreSQL used a sequential scan and checked many rows.  
+After creating the index, PostgreSQL used an index scan, significantly improving performance.
 
-Before the index, PostgreSQL used a sequential scan and checked many rows.
-After creating the index on PaymentDate, PostgreSQL used an index scan, so it accessed the relevant rows much faster.
+---
 
-Index 2 – Registration by TourID
-Description
+### Index 2 – Registration by TourID
 
+#### Description
 This index improves performance when retrieving registrations for a specific tour.
 
-Query BEFORE index
+#### Query BEFORE index
+
+```sql
 EXPLAIN ANALYZE
 SELECT *
 FROM REGISTRATION
 WHERE TourID = 1;
+```
 
 📸 Before index:
-<img width="1333" height="893" alt="index2_before_stage2" src="https://github.com/user-attachments/assets/fe71c596-3cbe-4abb-888c-e0bf3d4ffdaf" />
+
+<img width="1333" height="893" src="https://github.com/user-attachments/assets/fe71c596-3cbe-4abb-888c-e0bf3d4ffdaf" />
 
 ⏱ Execution Time: 9.896 ms
 
-Create Index
+#### Create Index
+
+```sql
 CREATE INDEX idx_registration_tourid
 ON REGISTRATION (TourID);
+```
 
 📸 Index creation:
-<img width="1340" height="884" alt="index2_create_stage2" src="https://github.com/user-attachments/assets/4afec164-b6b5-4856-9735-39b1e640cb12" />
 
-Query AFTER index
+<img width="1340" height="884" src="https://github.com/user-attachments/assets/4afec164-b6b5-4856-9735-39b1e640cb12" />
+
+#### Query AFTER index
+
+```sql
 EXPLAIN ANALYZE
 SELECT *
 FROM REGISTRATION
 WHERE TourID = 1;
+```
 
 📸 After index:
-<img width="1345" height="880" alt="index2_after_stage2" src="https://github.com/user-attachments/assets/b21ada0f-7b08-4885-9620-31fa799e0aa9" />
+
+<img width="1345" height="880" src="https://github.com/user-attachments/assets/b21ada0f-7b08-4885-9620-31fa799e0aa9" />
 
 ⏱ Execution Time: 0.134 ms
 
-Analysis
+#### Analysis
+Before the index, PostgreSQL performed a full table scan.  
+After adding the index, PostgreSQL directly accessed the relevant rows using the index.
 
-Before the index, PostgreSQL scanned the registration table and filtered rows by TourID.
-After creating the index, PostgreSQL used the TourID index to find matching registrations directly.
+---
 
-Index 3 – GuidedTour by RouteID
-Description
+### Index 3 – GuidedTour by RouteID
 
+#### Description
 This index improves performance when searching for tours by route.
 
-Query BEFORE index
+#### Query BEFORE index
+
+```sql
 EXPLAIN ANALYZE
 SELECT *
 FROM GUIDEDTOUR
 WHERE RouteID = 1;
+```
 
 📸 Before index:
-<img width="1355" height="889" alt="index3_before_stage2" src="https://github.com/user-attachments/assets/c88b7649-eef6-4806-9702-7133ff7fbfb2" />
+
+<img width="1355" height="889" src="https://github.com/user-attachments/assets/c88b7649-eef6-4806-9702-7133ff7fbfb2" />
 
 ⏱ Execution Time: 0.062 ms
 
-Create Index
+#### Create Index
+
+```sql
 CREATE INDEX idx_guidedtour_routeid
 ON GUIDEDTOUR (RouteID);
+```
 
 📸 Index creation:
-<img width="1340" height="892" alt="index3_create_stage2" src="https://github.com/user-attachments/assets/cf6fea0f-4cd3-4da8-8c56-f6b08cf75dce" />
 
-Query AFTER index
+<img width="1340" height="892" src="https://github.com/user-attachments/assets/cf6fea0f-4cd3-4da8-8c56-f6b08cf75dce" />
+
+#### Query AFTER index
+
+```sql
 EXPLAIN ANALYZE
 SELECT *
 FROM GUIDEDTOUR
 WHERE RouteID = 1;
+```
 
 📸 After index:
-<img width="1349" height="912" alt="index3_after_stage2" src="https://github.com/user-attachments/assets/29778291-4021-475b-ada6-0564fe3c69a7" />
+
+<img width="1349" height="912" src="https://github.com/user-attachments/assets/29778291-4021-475b-ada6-0564fe3c69a7" />
 
 ⏱ Execution Time: 0.050 ms
 
-Analysis
-
-The improvement is small because the GUIDEDTOUR table is relatively small compared to the other tables.
-However, after adding the index, PostgreSQL can use an index scan on RouteID, which becomes more beneficial as the table grows.
+#### Analysis
+The improvement is small because the table is relatively small.  
+However, the index will provide greater benefit as the dataset grows.
 
 ---
 
@@ -1127,12 +1198,15 @@ A full backup of the database after completing Phase 2 is included.
 
 📁 Location:
 
-backups/backup_04_05_2026.sql.sql
+```
+backups/backup_04_05_2026.sql
+```
 
-
-This backup file contains:
+#### Contents
 - All tables (schema)
 - All data (records)
-- Constraints and indexes created in Phase 2
+- Constraints
+- Indexes
 
-The backup can be used to fully restore the database.
+#### Purpose
+This backup allows full restoration of the database state after Phase 2.
