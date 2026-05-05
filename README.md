@@ -288,6 +288,8 @@ Verification was performed by running SELECT queries and checking:
 - 500 rows in regular tables
 - 20,000 rows in large tables (REGISTRATION, PAYMENT)
 
+<img width="1111" height="828" alt="WhatsApp Image 2026-05-05 at 10 47 30" src="https://github.com/user-attachments/assets/29aa8bf0-fb89-4486-a192-7bbbb9593daa" />
+
 This confirms that the backup file is valid and working correctly.
 
 ##  Summary
